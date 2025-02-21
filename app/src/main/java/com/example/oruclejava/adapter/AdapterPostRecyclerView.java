@@ -33,6 +33,23 @@ public class AdapterPostRecyclerView extends
     @Override
     public void onBindViewHolder(@NonNull AdapterPostRecyclerView.PostViewHolder holder, int position) {
         holder.bind(posts.get(position));
+        holder.likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.liked = !holder.liked;
+
+                if (holder.liked){
+                    holder.postModel.setLikeCount(holder.postModel.getLikeCount()+1);
+                    holder.likeButton.setImageResource(R.drawable.ic_heart_fill);
+                    holder.likeNumber.setText(String.valueOf(holder.postModel.getLikeCount()));
+                } else {
+                    holder.postModel.setLikeCount(holder.postModel.getLikeCount()-1);
+                    holder.likeButton.setImageResource(R.drawable.ic_heart_stroke);
+                    holder.likeNumber.setText(String.valueOf(holder.postModel.getLikeCount()));
+                }
+
+            }
+        });
     }
 
     @Override
@@ -46,7 +63,11 @@ public class AdapterPostRecyclerView extends
         private TextView content;
         private ImageView postImage;
         private TextView likeNumber;
+        private ImageView likeButton;
         private TextView commentNumber;
+        private ImageView commentButton;
+        private boolean liked = false;
+        private PostModel postModel;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -56,16 +77,21 @@ public class AdapterPostRecyclerView extends
             postImage = itemView.findViewById(R.id.post_image);
             likeNumber = itemView.findViewById(R.id.like_number);
             commentNumber = itemView.findViewById(R.id.comment_number);
-
+            likeButton = itemView.findViewById(R.id.like_img_btn);
+            commentButton = itemView.findViewById(R.id.comment_img_btn);
+            likeButton.setImageResource(
+                    liked ? R.drawable.ic_heart_fill : R.drawable.ic_heart_stroke);
         }
 
         void bind(PostModel post){
+            postModel = post;
             userAvatar.setImageResource(post.getAvatar());
             username.setText(post.getUsername());
             content.setText(post.getContent());
             postImage.setImageResource(post.getImageId());
             likeNumber.setText(String.valueOf(post.getLikeCount()));
             commentNumber.setText(String.valueOf(post.getCommentCount()));
+
         }
     }
 }
