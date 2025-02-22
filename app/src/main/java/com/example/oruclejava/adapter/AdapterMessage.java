@@ -1,5 +1,6 @@
 package com.example.oruclejava.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.oruclejava.MessageActivity;
 import com.example.oruclejava.R;
 import com.example.oruclejava.models.MessageModel;
 
@@ -32,6 +34,7 @@ public class AdapterMessage extends RecyclerView.Adapter<AdapterMessage.MessageV
     @Override
     public void onBindViewHolder(@NonNull AdapterMessage.MessageViewHolder holder, int position) {
         holder.bind(messages.get(position));
+        holder.itemView.setOnClickListener(view -> view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class)));
     }
 
     @Override

@@ -71,7 +71,7 @@ public class AdapterPostRecyclerView extends
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
-            userAvatar = itemView.findViewById(R.id.post_avatar);
+            userAvatar = (itemView.findViewById(R.id.user_up_post)).findViewById(R.id.user_avatar);
             username = itemView.findViewById(R.id.post_username);
             content = itemView.findViewById(R.id.post_content);
             postImage = itemView.findViewById(R.id.post_image);

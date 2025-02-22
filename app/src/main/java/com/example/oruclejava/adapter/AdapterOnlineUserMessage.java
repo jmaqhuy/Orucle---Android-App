@@ -1,5 +1,6 @@
 package com.example.oruclejava.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.oruclejava.MessageActivity;
 import com.example.oruclejava.R;
 import com.example.oruclejava.models.OnlineUserModel;
 
@@ -28,12 +30,18 @@ public class AdapterOnlineUserMessage extends RecyclerView.Adapter<AdapterOnline
         return new OnlineUserViewHolder(
                 LayoutInflater.
                         from(parent.getContext()).
-                        inflate(R.layout.user_avatar_online_status,parent,false));
+                        inflate(R.layout.user_avatar_online_status_with_username,parent,false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull OnlineUserViewHolder holder, int position) {
         holder.bind(userModels.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class));
+            }
+        });
     }
 
     @Override

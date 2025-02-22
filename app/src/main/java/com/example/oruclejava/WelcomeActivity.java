@@ -10,6 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.oruclejava.utils.Constants;
+import com.example.oruclejava.utils.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -25,8 +27,8 @@ public class WelcomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        SharedPreferences preferences = getSharedPreferences("OruclePrefs", MODE_PRIVATE);
-        boolean rememberMe = preferences.getBoolean("remember_me", false);
+        PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
+        boolean rememberMe = preferenceManager.getBoolean(Constants.KEY_REMEMBER_ME);
 
         if (!rememberMe) {
             FirebaseAuth.getInstance().signOut();

@@ -17,7 +17,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.oruclejava.utils.ClearFocus;
+import com.example.oruclejava.utils.Constants;
+import com.example.oruclejava.utils.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -87,12 +90,25 @@ public class LoginActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
-                SharedPreferences preferences = getSharedPreferences("OruclePrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("remember_me", checkBoxRememberMe.isChecked());
-                editor.apply();
-                startActivity(new Intent(this, MainActivity.class));
-                finishAffinity();
+                FirebaseFirestore database = FirebaseFirestore.getInstance();
+                database.collection(Constants.KEY_COLLECTION_USER)
+                        .document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists() && documentSnapshot.contains(Constants.KEY_NAME)) {
+                                if (checkBoxRememberMe.isChecked()) {
+                                    PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
+                                    preferenceManager.putBoolean(Constants.KEY_REMEMBER_ME, true);
+                                }
+                                startActivity(new Intent(this, MainActivity.class));
+                            } else {
+                                startActivity(new Intent(this, SetupProfile.class));
+                            }
+                            finishAffinity();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(this, "Lỗi khi lấy dữ liệu người dùng!", Toast.LENGTH_SHORT).show();
+                        });
             } else {
                 textInButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
