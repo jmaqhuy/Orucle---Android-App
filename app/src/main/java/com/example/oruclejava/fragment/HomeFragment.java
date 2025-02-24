@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,13 +37,14 @@ public class HomeFragment extends Fragment {
     private final ArrayList<PostModel> posts = new ArrayList<>();
 
     private RoundedImageView userAvatar;
+    private NestedScrollView nestedScrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
+        nestedScrollView = view.findViewById(R.id.main);
         if (userAvatar == null){
             userAvatar = view.findViewById(R.id.user_avatar);
             if (getActivity() instanceof MainActivity) {
@@ -63,6 +65,11 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    public void scrollToTop() {
+        if (nestedScrollView != null) {
+            nestedScrollView.smoothScrollTo(0, 0, 1000);
+        }
+    }
 
     private void fakeData() {
         Random random = new Random();

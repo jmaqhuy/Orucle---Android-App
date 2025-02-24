@@ -2,6 +2,7 @@ package com.example.oruclejava.fragment;
 
 import android.os.Bundle;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ public class ProfileFragment extends Fragment {
 
     private ArrayList<PostModel> ownPost;
     private RoundedImageView user_avatar;
+    private NestedScrollView nestedScrollView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class ProfileFragment extends Fragment {
     private void initView(View view) {
         view.findViewById(R.id.btn_follow).setVisibility(View.GONE);
         view.findViewById(R.id.btn_message).setVisibility(View.GONE);
+        nestedScrollView = view.findViewById(R.id.main);
         if (user_avatar == null){
             user_avatar = view.findViewById(R.id.user_avatar);
             if (getActivity() instanceof MainActivity) {
@@ -55,6 +58,11 @@ public class ProfileFragment extends Fragment {
         Log.d("KEY_NAME", "Assign username");
         //TODO: create listener even for btn_edit_profile
 
+    }
+    public void scrollToTop() {
+        if (nestedScrollView != null) {
+            nestedScrollView.smoothScrollTo(0, 0, 1000);
+        }
     }
 
     private void fakeData(String username) {

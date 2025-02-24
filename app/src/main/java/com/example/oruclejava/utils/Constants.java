@@ -20,4 +20,17 @@ public class Constants {
     public static final String KEY_FOLLOWER = "follower";
     public static final String KEY_FOLLOWING = "following";
 
+    public static final String KEY_COLLECTION_CONVERSATION = "conversations";
+    public static final String KEY_SENDER_NAME = "senderName";
+    public static final String KEY_RECEIVER_NAME = "receiveName";
+    public static final String KEY_SENDER_IMAGE = "senderImage";
+    public static final String KEY_RECEIVER_IMAGE = "receiverImage";
+    public static final String KEY_LAST_MESSAGE = "lastMessage";
+//    public static final String KEY_UNREAD = "unread";
+
+    public static final String KEY_CONVERSATION_ID = "conversationId";
+//    public static final String KEY_CONVERSATION_NAME = "conversationName";
+//    public static final String KEY_CONVERSATION_IMAGE = "conversationImage";
+//    public static final String KEY_CONVERSATION_LAST_MESSAGE = "conversationLastMessage";
+
 }

@@ -32,6 +32,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         ((RoundedImageView)findViewById(R.id.user_avatar)).setImageBitmap(
                 getUserImage(getIntent().getStringExtra(Constants.KEY_IMAGE)));
+
+        findViewById(R.id.back).setOnClickListener(v -> finish());
     }
 
     private Bitmap getUserImage(String encodedImage){

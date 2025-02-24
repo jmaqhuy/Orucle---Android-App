@@ -145,11 +145,8 @@ public class SetupProfile extends AppCompatActivity {
     }
 
     private String encodeImage(Bitmap bitmap){
-        int previewWidth = 150;
-        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
-        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream); // PNG không mất dữ liệu
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
@@ -159,7 +156,6 @@ public class SetupProfile extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK){
                     if (result.getData() != null){
-                        Intent data = result.getData();
                         Uri imageUri = result.getData().getData();
                         try {
                             InputStream inputStream = getContentResolver().openInputStream(imageUri);

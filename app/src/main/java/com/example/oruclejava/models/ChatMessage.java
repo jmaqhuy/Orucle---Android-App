@@ -4,11 +4,9 @@ package com.example.oruclejava.models;
 import java.util.Date;
 
 public class ChatMessage {
-    private String senderId;
-    private String receiverId;
-    private String receiverAvatar;
-    private String text;
+    private String senderId, receiverId, receiverAvatar, text;
     private Date date;
+    private String conversionId, conversionName, conversionImage;
 
     public ChatMessage() {
     }
@@ -52,5 +50,29 @@ public class ChatMessage {
 
     public void setReceiverAvatar(String receiverAvatar) {
         this.receiverAvatar = receiverAvatar;
+    }
+
+    public String getConversionImage() {
+        return conversionImage;
+    }
+
+    public void setConversionImage(String conversionImage) {
+        this.conversionImage = conversionImage;
+    }
+
+    public String getConversionName() {
+        return conversionName;
+    }
+
+    public void setConversionName(String conversionName) {
+        this.conversionName = conversionName;
+    }
+
+    public String getConversionId() {
+        return conversionId;
+    }
+
+    public void setConversionId(String conversionId) {
+        this.conversionId = conversionId;
     }
 }

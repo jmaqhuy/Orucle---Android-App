@@ -1,10 +1,5 @@
 package com.example.oruclejava;
 
-import static java.lang.Math.abs;
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,9 +7,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -32,6 +24,7 @@ import com.example.oruclejava.fragment.MessageFragment;
 import com.example.oruclejava.fragment.NotificationFragment;
 import com.example.oruclejava.fragment.ProfileFragment;
 import com.example.oruclejava.utils.Constants;
+import com.example.oruclejava.utils.PreferenceManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -50,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseFirestore database;
     private DocumentSnapshot currentUserDoc;
+    private HomeFragment homeFragment;
+    private ProfileFragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +64,20 @@ public class MainActivity extends AppCompatActivity {
         viewpager = findViewById(R.id.main_viewpager);
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+        bottom_nav.findViewById(R.id.profile).setOnLongClickListener(v -> {
+            LogoutBottomSheet bottomSheet = new LogoutBottomSheet();
+            bottomSheet.show(getSupportFragmentManager(), "LogoutBottomSheet");
+            return true;
+        });
 
-        fragments.add(new HomeFragment());
+    }
+    private void setViewpagerAndBottomNav(){
+        homeFragment = new HomeFragment();
+        profileFragment = new ProfileFragment();
+        fragments.add(homeFragment);
         fragments.add(new MessageFragment());
         fragments.add(new NotificationFragment());
-        fragments.add(new ProfileFragment());
+        fragments.add(profileFragment);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(this, fragments);
         viewpager.setAdapter(adapter);
@@ -92,12 +96,22 @@ public class MainActivity extends AppCompatActivity {
             int target;
             if (id == R.id.home) {
                 target = 0;
+                if (viewpager.getCurrentItem() == target){
+                    if (homeFragment != null) {
+                        homeFragment.scrollToTop();
+                    }
+                }
             } else if (id == R.id.message) {
                 target = 1;
             } else if (id == R.id.noti) {
                 target = 2;
             } else if (id == R.id.profile) {
                 target = 3;
+                if (viewpager.getCurrentItem() == target){
+                    if (profileFragment != null) {
+                        profileFragment.scrollToTop();
+                    }
+                }
             } else {
                 target = 0;
             }
@@ -105,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
             updateToolbarTitle(target);
             return true;
         });
-
     }
 
     @Override
@@ -150,15 +163,21 @@ public class MainActivity extends AppCompatActivity {
                 .addOnSuccessListener(document -> {
                     if (document.exists()){
                         currentUserDoc = document;
+                        setViewpagerAndBottomNav();
+                        PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
+                        preferenceManager.putString(Constants.KEY_SENDER_NAME, currentUserDoc.getString(Constants.KEY_NAME));
+                        preferenceManager.putString(Constants.KEY_SENDER_IMAGE, currentUserDoc.getString(Constants.KEY_IMAGE));
                     } else {
                         Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
                         startActivity(intent);
                         finishAffinity();
                     }
                 });
+
     }
 
     public void getAvatar(RoundedImageView userAvatar){
+        if (currentUserDoc == null) return;
         String encodedImage = currentUserDoc.getString(Constants.KEY_IMAGE);
         if (encodedImage != null) {
             byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
@@ -169,7 +188,9 @@ public class MainActivity extends AppCompatActivity {
             Log.d("HOME FRAGMENT", "Image data is null");
         }
     }
+
     public String getUsername(){
+        if (currentUserDoc == null) return "";
         return currentUserDoc.getString((Constants.KEY_NAME));
     }
 

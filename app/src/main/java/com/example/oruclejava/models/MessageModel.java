@@ -1,24 +1,16 @@
 package com.example.oruclejava.models;
 
 public class MessageModel {
-    private int avatarId;
+    private String avatarEncodedImage;
     private String username;
     private String lastMessage;
     private boolean unread;
 
-    public MessageModel(int avatarId, String username, String lastMessage, boolean unread) {
-        this.avatarId = avatarId;
+    public MessageModel(String avatarEncodedImage, String username, String lastMessage, boolean unread) {
+        this.avatarEncodedImage = avatarEncodedImage;
         this.username = username;
         this.lastMessage = lastMessage;
         this.unread = unread;
-    }
-
-    public int getAvatarId() {
-        return avatarId;
-    }
-
-    public void setAvatarId(int avatarId) {
-        this.avatarId = avatarId;
     }
 
     public String getUsername() {
@@ -43,5 +35,13 @@ public class MessageModel {
 
     public void setUnread(boolean unread) {
         this.unread = unread;
+    }
+
+    public String getAvatarEncodedImage() {
+        return avatarEncodedImage;
+    }
+
+    public void setAvatarEncodedImage(String avatarEncodedImage) {
+        this.avatarEncodedImage = avatarEncodedImage;
     }
 }

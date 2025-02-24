@@ -13,6 +13,7 @@
         android:background="@drawable/circle_bg"
         android:backgroundTint="@color/blue"
         android:src="@drawable/boy_avatar"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_corner_radius="25dp" />
