@@ -49,6 +49,8 @@ public class SetupProfile extends AppCompatActivity {
     private ProgressBar progressBar;
     private int mYear, mMonth, mDay;
 
+    private boolean buttonClick = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +112,7 @@ public class SetupProfile extends AppCompatActivity {
 
 
         findViewById(R.id.button_confirm).setOnClickListener(v -> {
+            if (buttonClick) return;
             if (encodedImage == null){
                 Toast.makeText(this, "Please select profile image", Toast.LENGTH_SHORT).show();
                 return;
@@ -120,7 +123,7 @@ public class SetupProfile extends AppCompatActivity {
                 Toast.makeText(this, "Please enter date of birth", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            buttonClick = true;
             textInButton.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
             HashMap<String, Object> user = new HashMap<>();
@@ -134,19 +137,29 @@ public class SetupProfile extends AppCompatActivity {
                     .document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                     .update(user)
                     .addOnSuccessListener(unused -> {
+                        buttonClick = false;
                         textInButton.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
                     })
-                    .addOnFailureListener(e -> Log.e("Firestore", "Error updating user", e));
+                    .addOnFailureListener(e ->
+                    {
+                        buttonClick = false;
+                        textInButton.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(this, "Error! " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
 
         });
     }
 
     private String encodeImage(Bitmap bitmap){
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream); // PNG không mất dữ liệu
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
