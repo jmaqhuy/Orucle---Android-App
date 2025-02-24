@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.oruclejava.MessageActivity;
+import com.example.oruclejava.ProfileActivity;
 import com.example.oruclejava.R;
 import com.example.oruclejava.models.UserModel;
 import com.example.oruclejava.utils.Constants;
@@ -66,6 +67,14 @@ public class AdapterSearchUserResult extends RecyclerView.Adapter<AdapterSearchU
             follow.setText(userModel.isFollowing() ? "Following" : "Follow");
             message.setOnClickListener(view -> {
                 Intent intent = new Intent(view.getContext(), MessageActivity.class);
+                intent.putExtra(Constants.KEY_USER_ID, userModel.getUserId());
+                intent.putExtra(Constants.KEY_IMAGE, userModel.getEncodedAvatar());
+                intent.putExtra(Constants.KEY_NAME, userModel.getUsername());
+                view.getContext().startActivity(intent);
+            });
+
+            avatar.setOnClickListener(view -> {
+                Intent intent = new Intent(view.getContext(), ProfileActivity.class);
                 intent.putExtra(Constants.KEY_USER_ID, userModel.getUserId());
                 intent.putExtra(Constants.KEY_IMAGE, userModel.getEncodedAvatar());
                 intent.putExtra(Constants.KEY_NAME, userModel.getUsername());

@@ -1,25 +1,41 @@
 package com.example.oruclejava.fragment;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.oruclejava.MainActivity;
+import com.example.oruclejava.WelcomeActivity;
 import com.example.oruclejava.models.PostModel;
 import com.example.oruclejava.R;
 import com.example.oruclejava.adapter.AdapterPostRecyclerView;
+import com.example.oruclejava.utils.Constants;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 
 public class HomeFragment extends Fragment {
     private final ArrayList<PostModel> posts = new ArrayList<>();
+
+    private RoundedImageView userAvatar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,6 +43,17 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        if (userAvatar == null){
+            userAvatar = view.findViewById(R.id.user_avatar);
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).getAvatar(userAvatar);
+            }
+        }
+        userAvatar.setOnClickListener(view1 -> {
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).switchToProfileFragment();
+            }
+        });
         RecyclerView homeRecyclerView = view.findViewById(R.id.home_recycler_view);
         fakeData();
         AdapterPostRecyclerView adapter = new AdapterPostRecyclerView(posts);
@@ -35,6 +62,7 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
 
     private void fakeData() {
         Random random = new Random();
@@ -61,7 +89,7 @@ public class HomeFragment extends Fragment {
         int[] avatars = {R.drawable.boy_avatar, R.drawable.girl_avatar};
         int[] images = {R.drawable.a, R.drawable.b, R.drawable.c};
 
-        for (int i = 0; i < 50; i++) { // Tạo 50 post ngẫu nhiên
+        for (int i = 0; i < 20; i++) { // Tạo 50 post ngẫu nhiên
             PostModel post = new PostModel();
             post.setAvatar(avatars[random.nextInt(avatars.length)]);
             post.setUsername(usernames[random.nextInt(usernames.length)]);

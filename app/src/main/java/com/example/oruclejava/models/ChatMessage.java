@@ -1,19 +1,14 @@
 package com.example.oruclejava.models;
 
+
+import java.util.Date;
+
 public class ChatMessage {
     private String senderId;
     private String receiverId;
     private String receiverAvatar;
     private String text;
-    private String timestamp;
-
-    public ChatMessage(String senderId, String receiverId, String receiverAvatar, String text, String timestamp) {
-        this.senderId = senderId;
-        this.receiverId = receiverId;
-        this.receiverAvatar = receiverAvatar;
-        this.text = text;
-        this.timestamp = timestamp;
-    }
+    private Date date;
 
     public ChatMessage() {
     }
@@ -42,12 +37,13 @@ public class ChatMessage {
         this.text = text;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setDate(Date date) {
+
+        this.date = date;
     }
 
     public String getReceiverAvatar() {

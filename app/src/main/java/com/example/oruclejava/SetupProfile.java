@@ -127,6 +127,8 @@ public class SetupProfile extends AppCompatActivity {
             user.put(Constants.KEY_NAME, name.getText().toString());
             user.put(Constants.KEY_DOB, dob.getText().toString());
             user.put(Constants.KEY_IMAGE, encodedImage);
+            user.put(Constants.KEY_FOLLOWER, 0);
+            user.put(Constants.KEY_FOLLOWING, 0);
             FirebaseFirestore database = FirebaseFirestore.getInstance();
             database.collection(Constants.KEY_COLLECTION_USER)
                     .document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())

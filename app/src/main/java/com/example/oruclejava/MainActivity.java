@@ -6,7 +6,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,9 +31,15 @@ import com.example.oruclejava.fragment.HomeFragment;
 import com.example.oruclejava.fragment.MessageFragment;
 import com.example.oruclejava.fragment.NotificationFragment;
 import com.example.oruclejava.fragment.ProfileFragment;
+import com.example.oruclejava.utils.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewpager;
     private Toolbar toolbar;
     private ArrayList<Fragment> fragments = new ArrayList<>();
+
+    private FirebaseFirestore database;
+    private DocumentSnapshot currentUserDoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        database = FirebaseFirestore.getInstance();
+        getUserDocumentSnapshot();
+
 
         bottom_nav = findViewById(R.id.main_bottom_nav);
         viewpager = findViewById(R.id.main_viewpager);
@@ -70,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 updateToolbarTitle(position);
             }
         });
+        viewpager.setOffscreenPageLimit(4);
 
         bottom_nav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -85,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 target = 0;
             }
-            viewpager.setCurrentItem(target);
+            viewpager.setCurrentItem(target, false);
             updateToolbarTitle(target);
             return true;
         });
@@ -120,6 +136,41 @@ public class MainActivity extends AppCompatActivity {
         } else {
             toolbar.setTitle("Feeds");
         }
+    }
+    public void switchToProfileFragment() {
+        viewpager.setCurrentItem(3, false);
+    }
+
+    private void getUserDocumentSnapshot(){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userId = mAuth.getUid();
+        database.collection(Constants.KEY_COLLECTION_USER)
+                .document(Objects.requireNonNull(userId))
+                .get()
+                .addOnSuccessListener(document -> {
+                    if (document.exists()){
+                        currentUserDoc = document;
+                    } else {
+                        Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+                        startActivity(intent);
+                        finishAffinity();
+                    }
+                });
+    }
+
+    public void getAvatar(RoundedImageView userAvatar){
+        String encodedImage = currentUserDoc.getString(Constants.KEY_IMAGE);
+        if (encodedImage != null) {
+            byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+            userAvatar.setImageBitmap(
+                    BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            Log.d("HOME FRAGMENT", "set image success");
+        } else {
+            Log.d("HOME FRAGMENT", "Image data is null");
+        }
+    }
+    public String getUsername(){
+        return currentUserDoc.getString((Constants.KEY_NAME));
     }
 
 }

@@ -16,6 +16,12 @@ import com.example.oruclejava.models.ChatMessage;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+
 
 public class AdapterChatInRoom extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<ChatMessage> messages;
@@ -79,7 +85,7 @@ public class AdapterChatInRoom extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         void bind(ChatMessage message){
             textMessage.setText(message.getText());
-            textTime.setText(message.getTimestamp());
+            textTime.setText(getTextDate(message.getDate()));
         }
     }
 
@@ -98,12 +104,30 @@ public class AdapterChatInRoom extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         void bind(ChatMessage message){
             textMessage.setText(message.getText());
-            textTime.setText(message.getTimestamp());
+            textTime.setText(getTextDate(message.getDate()));
             receiverAvatar.setImageBitmap(getUserImage(receiverAvatarString));
         }
         private Bitmap getUserImage(String encodedImage){
             byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
+
+
+    }
+    private static String getTextDate(Date date){
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+        Calendar messageCalendar = Calendar.getInstance();
+        messageCalendar.setTime(date);
+
+        Calendar todayCalendar = Calendar.getInstance();
+
+        if (messageCalendar.get(Calendar.YEAR) == todayCalendar.get(Calendar.YEAR) &&
+                messageCalendar.get(Calendar.DAY_OF_YEAR) == todayCalendar.get(Calendar.DAY_OF_YEAR)) {
+            return timeFormat.format(date); // Nếu là hôm nay -> Chỉ hiện giờ
+        } else {
+            return dateFormat.format(date); // Nếu là ngày khác -> Hiện cả ngày tháng năm
         }
     }
 }
