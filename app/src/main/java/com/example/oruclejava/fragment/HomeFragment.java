@@ -1,8 +1,5 @@
 package com.example.oruclejava.fragment;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
@@ -10,26 +7,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.oruclejava.MainActivity;
-import com.example.oruclejava.WelcomeActivity;
 import com.example.oruclejava.models.PostModel;
 import com.example.oruclejava.R;
 import com.example.oruclejava.adapter.AdapterPostRecyclerView;
-import com.example.oruclejava.utils.Constants;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
 

@@ -18,6 +18,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.oruclejava.activity.LogoutBottomSheet;
+import com.example.oruclejava.activity.SearchActivity;
+import com.example.oruclejava.activity.WelcomeActivity;
 import com.example.oruclejava.adapter.ViewPagerAdapter;
 import com.example.oruclejava.fragment.HomeFragment;
 import com.example.oruclejava.fragment.MessageFragment;

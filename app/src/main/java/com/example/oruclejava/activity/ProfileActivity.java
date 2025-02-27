@@ -1,4 +1,4 @@
-package com.example.oruclejava;
+package com.example.oruclejava.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.oruclejava.R;
 import com.example.oruclejava.utils.Constants;
 import com.makeramen.roundedimageview.RoundedImageView;
 

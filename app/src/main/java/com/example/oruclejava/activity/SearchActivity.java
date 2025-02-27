@@ -1,7 +1,6 @@
-package com.example.oruclejava;
+package com.example.oruclejava.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -14,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.oruclejava.R;
 import com.example.oruclejava.adapter.AdapterSearchUserResult;
 import com.example.oruclejava.models.UserModel;
 import com.example.oruclejava.utils.Constants;

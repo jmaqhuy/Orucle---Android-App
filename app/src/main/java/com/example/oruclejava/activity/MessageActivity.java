@@ -1,4 +1,4 @@
-package com.example.oruclejava;
+package com.example.oruclejava.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.oruclejava.R;
 import com.example.oruclejava.adapter.AdapterChatInRoom;
 import com.example.oruclejava.models.ChatMessage;
 import com.example.oruclejava.utils.Constants;

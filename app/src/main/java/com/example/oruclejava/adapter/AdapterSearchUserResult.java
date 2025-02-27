@@ -14,8 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.oruclejava.MessageActivity;
-import com.example.oruclejava.ProfileActivity;
+import com.example.oruclejava.activity.MessageActivity;
+import com.example.oruclejava.activity.ProfileActivity;
 import com.example.oruclejava.R;
 import com.example.oruclejava.models.UserModel;
 import com.example.oruclejava.utils.Constants;

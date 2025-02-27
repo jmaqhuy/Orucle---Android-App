@@ -13,15 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.oruclejava.MessageActivity;
+import com.example.oruclejava.activity.MessageActivity;
 import com.example.oruclejava.R;
 import com.example.oruclejava.models.ChatMessage;
-import com.example.oruclejava.models.MessageModel;
 import com.example.oruclejava.utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class AdapterMessage extends RecyclerView.Adapter<AdapterMessage.MessageViewHolder> {
 

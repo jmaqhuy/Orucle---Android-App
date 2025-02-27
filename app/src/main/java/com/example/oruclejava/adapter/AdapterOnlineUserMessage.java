@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.oruclejava.MessageActivity;
+import com.example.oruclejava.activity.MessageActivity;
 import com.example.oruclejava.R;
 import com.example.oruclejava.models.OnlineUserModel;
 

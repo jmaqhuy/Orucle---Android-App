@@ -50,4 +50,11 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.roundedimageview)
+    implementation(libs.gson)
+    compileOnly(libs.projectlombok.lombok)
+    annotationProcessor(libs.projectlombok.lombok)
+    implementation (libs.retrofit)
+    implementation(libs.converter.gson)
+
+
 }
